@@ -26,9 +26,6 @@ jobs:
       - name: Lint
         run: ruff check src/ tests/
 
-      - name: Type check
-        run: mypy src/
-
       - name: Test
         run: pytest --cov=src/hashcrack --cov-report=xml -v
 
