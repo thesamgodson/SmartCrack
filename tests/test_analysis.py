@@ -4,7 +4,6 @@ from hashcrack.analysis import (
     calculate_entropy,
     detect_patterns,
     generate_audit_summary,
-    AuditSummary,
 )
 
 def test_calculate_entropy_simple():

@@ -62,7 +62,7 @@ def _make_app(auto_start: bool = False) -> HashCrackApp:
 async def test_app_launches_without_crash() -> None:
     """App should mount and render without raising exceptions."""
     app = _make_app()
-    async with app.run_test() as pilot:
+    async with app.run_test():
         assert app is not None
         # Header should be present
         assert app.title == f"HashCrack v{__import__('hashcrack').__version__}"

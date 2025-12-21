@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 import hashlib
-import itertools
 from collections.abc import Iterator
 
-import pytest
 
 from hashcrack.cracker import _check_chunk, _chunk_iter, crack_parallel, crack_sequential, recommended_batch_size
-from hashcrack.models import CrackResult, HashTarget, HashType
+from hashcrack.models import HashTarget, HashType
 
 
 # ---------------------------------------------------------------------------
@@ -238,7 +236,6 @@ class TestCrackParallel:
 
 class TestCheckChunk:
     def test_finds_match(self) -> None:
-        plaintext = "secret"
         h = hashlib.md5(b"secret").hexdigest()
         result = _check_chunk(["apple", "secret", "banana"], h, "MD5", "")
         assert result == ("secret", "MD5")
@@ -249,7 +246,6 @@ class TestCheckChunk:
         assert result is None
 
     def test_auto_detect(self) -> None:
-        plaintext = "hello"
         h = hashlib.sha256(b"hello").hexdigest()
         result = _check_chunk(["world", "hello"], h, "UNKNOWN", "")
         assert result == ("hello", "SHA256")

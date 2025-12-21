@@ -364,7 +364,7 @@ def batch(
     """Crack multiple hashes from a file."""
     _print_banner()
 
-    from hashcrack.batch import BatchResult, auto_type_jobs, deduplicate_hashes, parse_hash_file
+    from hashcrack.batch import auto_type_jobs, deduplicate_hashes, parse_hash_file
 
     resolved_path = resolve_wordlist(wordlist)
     jobs = parse_hash_file(hash_file)

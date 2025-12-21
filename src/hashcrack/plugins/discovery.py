@@ -1,7 +1,6 @@
 """Plugin discovery via importlib.metadata entry_points."""
 from __future__ import annotations
 import importlib.metadata
-from hashcrack.plugins.base import HashPlugin, AttackPlugin, ProfilerPlugin
 
 _ENTRY_POINT_GROUPS = {
     "hash": "hashcrack.hash_plugins",

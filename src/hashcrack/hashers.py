@@ -85,7 +85,8 @@ def _md4(data: bytes) -> str:
                      (4, 3), (5, 7), (6, 11), (7, 19),
                      (8, 3), (9, 7), (10, 11), (11, 19),
                      (12, 3), (13, 7), (14, 11), (15, 19)]:
-            a = R1(a, b, c, d, k, s); a, b, c, d = d, a, b, c
+            a = R1(a, b, c, d, k, s)
+            a, b, c, d = d, a, b, c
 
         # Round 2 — G(b,c,d) = (b & c) | (b & d) | (c & d)
         def R2(a: int, b: int, c: int, d: int, k: int, s: int) -> int:
@@ -95,7 +96,8 @@ def _md4(data: bytes) -> str:
                      (1, 3), (5, 5), (9, 9), (13, 13),
                      (2, 3), (6, 5), (10, 9), (14, 13),
                      (3, 3), (7, 5), (11, 9), (15, 13)]:
-            a = R2(a, b, c, d, k, s); a, b, c, d = d, a, b, c
+            a = R2(a, b, c, d, k, s)
+            a, b, c, d = d, a, b, c
 
         # Round 3 — H(b,c,d) = b ^ c ^ d
         def R3(a: int, b: int, c: int, d: int, k: int, s: int) -> int:
@@ -105,7 +107,8 @@ def _md4(data: bytes) -> str:
                      (2, 3), (10, 9), (6, 11), (14, 15),
                      (1, 3), (9, 9), (5, 11), (13, 15),
                      (3, 3), (11, 9), (7, 11), (15, 15)]:
-            a = R3(a, b, c, d, k, s); a, b, c, d = d, a, b, c
+            a = R3(a, b, c, d, k, s)
+            a, b, c, d = d, a, b, c
 
         a = (a + aa) & 0xFFFFFFFF
         b = (b + bb) & 0xFFFFFFFF

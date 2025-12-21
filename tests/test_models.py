@@ -6,7 +6,6 @@ import pytest
 
 from hashcrack.models import (
     AttackConfig,
-    AttackPhase,
     CrackResult,
     HashTarget,
     HashType,

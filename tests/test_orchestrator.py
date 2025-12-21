@@ -4,11 +4,10 @@ from __future__ import annotations
 
 import hashlib
 from pathlib import Path
-from typing import Iterator
 
 import pytest
 
-from hashcrack.models import AttackPhase, CrackResult, HashTarget, HashType, TargetProfile
+from hashcrack.models import AttackPhase, HashTarget, HashType, TargetProfile
 from hashcrack.orchestrator import AttackPlan, plan_attacks, run_orchestrated
 
 

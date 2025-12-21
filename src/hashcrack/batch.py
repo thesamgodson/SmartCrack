@@ -1,6 +1,6 @@
 """Batch hash processing with deduplication and file parsing."""
 from __future__ import annotations
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 
 from hashcrack.models import HashType, CrackResult
