@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from hashcrack.hash_id import identify_hash
-from hashcrack.models import HashType
+from smartcrack.hash_id import identify_hash
+from smartcrack.models import HashType
 
 
 class TestMD5:

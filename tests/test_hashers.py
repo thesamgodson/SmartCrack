@@ -8,8 +8,8 @@ import argon2
 import bcrypt as bcrypt_lib
 import pytest
 
-from hashcrack.hashers import compute_hash, verify, verify_any
-from hashcrack.models import HashTarget, HashType
+from smartcrack.hashers import compute_hash, verify, verify_any
+from smartcrack.models import HashTarget, HashType
 
 
 class TestComputeHash:

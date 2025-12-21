@@ -8,7 +8,7 @@ from typing import Iterator
 
 import httpx
 
-from hashcrack.models import LLMConfig, TargetProfile
+from smartcrack.models import LLMConfig, TargetProfile
 
 logger = logging.getLogger(__name__)
 

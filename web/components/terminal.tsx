@@ -149,7 +149,7 @@ export function Terminal({
           <div className="w-3 h-3 rounded-full bg-[oklch(0.65_0.20_145)]" />
         </div>
         <span className="text-xs text-[oklch(0.50_0.01_262)] font-mono ml-2">
-          hashcrack
+          smartcrack
         </span>
       </div>
 

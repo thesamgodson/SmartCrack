@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Iterator, Protocol, runtime_checkable
 
-from hashcrack.models import HashTarget, HashType, TargetProfile
+from smartcrack.models import HashTarget, HashType, TargetProfile
 
 
 @runtime_checkable

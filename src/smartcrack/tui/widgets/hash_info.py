@@ -5,7 +5,7 @@ from __future__ import annotations
 from textual.app import ComposeResult
 from textual.widgets import Static
 
-from hashcrack.models import HashTarget, HashType
+from smartcrack.models import HashTarget, HashType
 
 _MAX_HASH_DISPLAY = 48
 

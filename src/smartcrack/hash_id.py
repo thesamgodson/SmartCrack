@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from hashcrack.models import HashType
+from smartcrack.models import HashType
 
 # Hex character set for validation
 _HEX_CHARS = frozenset("0123456789abcdefABCDEF")

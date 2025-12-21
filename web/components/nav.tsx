@@ -5,7 +5,7 @@ import { Terminal } from "lucide-react";
 import { GitHubIcon } from "./icons";
 import { ThemeToggle } from "./theme-toggle";
 
-const GITHUB_URL = "https://github.com/sam/hashcrack";
+const GITHUB_URL = "https://github.com/sam/smartcrack";
 
 export function Nav() {
   return (
@@ -21,7 +21,7 @@ export function Nav() {
             <Terminal className="w-4 h-4 text-white" />
           </div>
           <span className="text-lg font-semibold text-text-primary tracking-tight">
-            HashCrack
+            SmartCrack
           </span>
         </a>
 

@@ -1,4 +1,4 @@
-# HashCrack -- How-To Guide
+# SmartCrack -- How-To Guide
 
 ## Setup
 
@@ -19,10 +19,10 @@ cp .env.example .env
 Edit `.env` and fill in your LLM endpoint:
 
 ```
-HASHCRACK_LLM_BASE_URL=https://litellm.dev.bharatai.me/v1
-HASHCRACK_LLM_API_KEY=sk-ySqjC5hEgpSAy0VdvafZWA
-HASHCRACK_LLM_MODEL=qwen35b-opus
-HASHCRACK_LLM_TIMEOUT=90
+SMARTCRACK_LLM_BASE_URL=https://litellm.dev.bharatai.me/v1
+SMARTCRACK_LLM_API_KEY=sk-ySqjC5hEgpSAy0VdvafZWA
+SMARTCRACK_LLM_MODEL=qwen35b-opus
+SMARTCRACK_LLM_TIMEOUT=90
 ```
 
 Then load it into your shell:
@@ -52,7 +52,7 @@ For password profiling, `llama-8b-baseline` is the most reliable (fast, doesn't 
 ### Identify a hash type
 
 ```bash
-hashcrack identify -H "5d41402abc4b2a76b9719d911017c592"
+smartcrack identify -H "5d41402abc4b2a76b9719d911017c592"
 ```
 
 Output tells you the algorithm (MD5, SHA1, SHA256, etc.) with confidence scores.
@@ -60,13 +60,13 @@ Output tells you the algorithm (MD5, SHA1, SHA256, etc.) with confidence scores.
 ### Basic dictionary crack
 
 ```bash
-hashcrack crack -H "5d41402abc4b2a76b9719d911017c592"
+smartcrack crack -H "5d41402abc4b2a76b9719d911017c592"
 ```
 
 Uses the bundled 100K wordlist. Specify your own with `-w`:
 
 ```bash
-hashcrack crack -H "5d41402abc4b2a76b9719d911017c592" -w /path/to/rockyou.txt
+smartcrack crack -H "5d41402abc4b2a76b9719d911017c592" -w /path/to/rockyou.txt
 ```
 
 ### Smart crack (multi-phase, recommended)
@@ -74,13 +74,13 @@ hashcrack crack -H "5d41402abc4b2a76b9719d911017c592" -w /path/to/rockyou.txt
 This chains 4 attack phases automatically: Dictionary, Rules, Profile, Hybrid.
 
 ```bash
-hashcrack smart -H "5d41402abc4b2a76b9719d911017c592"
+smartcrack smart -H "5d41402abc4b2a76b9719d911017c592"
 ```
 
 #### With target profile (local rule-based)
 
 ```bash
-hashcrack smart -H "5d41402abc4b2a76b9719d911017c592" \
+smartcrack smart -H "5d41402abc4b2a76b9719d911017c592" \
   --profile-name John \
   --profile-lastname Smith \
   --profile-nickname Johnny \
@@ -95,23 +95,23 @@ hashcrack smart -H "5d41402abc4b2a76b9719d911017c592" \
 
 #### With AI profiling (requires LLM config)
 
-Same as above -- if `HASHCRACK_LLM_BASE_URL` and `HASHCRACK_LLM_API_KEY` are set, the AI profiler activates automatically in the Profile phase. No extra flags needed.
+Same as above -- if `SMARTCRACK_LLM_BASE_URL` and `SMARTCRACK_LLM_API_KEY` are set, the AI profiler activates automatically in the Profile phase. No extra flags needed.
 
 You can also pass the LLM config inline:
 
 ```bash
-hashcrack smart -H "<hash>" \
+smartcrack smart -H "<hash>" \
   --profile-name John \
   --llm-base-url "https://litellm.dev.bharatai.me/v1" \
   --llm-model "llama-8b-baseline"
 ```
 
-The API key must be set via env var `HASHCRACK_LLM_API_KEY` (not exposed as a CLI flag for security).
+The API key must be set via env var `SMARTCRACK_LLM_API_KEY` (not exposed as a CLI flag for security).
 
 #### With TUI dashboard
 
 ```bash
-hashcrack smart -H "5d41402abc4b2a76b9719d911017c592" --tui
+smartcrack smart -H "5d41402abc4b2a76b9719d911017c592" --tui
 ```
 
 Interactive dashboard with real-time progress, phase tracking, and log output. Press `q` to quit.
@@ -195,7 +195,7 @@ isort src/ tests/
 ### Project structure
 
 ```
-src/hashcrack/
+src/smartcrack/
   cli.py          -- Typer CLI (crack, identify, smart, version)
   orchestrator.py -- Smart attack phase chaining
   profiler.py     -- LocalProfiler (rules) + AIProfiler (LLM)
@@ -217,13 +217,13 @@ src/hashcrack/
 ## Troubleshooting
 
 **AI profiler returns 0 candidates**
-- Check that `HASHCRACK_LLM_API_KEY` is set: `echo $HASHCRACK_LLM_API_KEY`
-- Test the endpoint directly: `curl $HASHCRACK_LLM_BASE_URL/chat/completions -H "Authorization: Bearer $HASHCRACK_LLM_API_KEY" -H "Content-Type: application/json" -d '{"model":"llama-8b-baseline","messages":[{"role":"user","content":"hello"}]}'`
+- Check that `SMARTCRACK_LLM_API_KEY` is set: `echo $SMARTCRACK_LLM_API_KEY`
+- Test the endpoint directly: `curl $SMARTCRACK_LLM_BASE_URL/chat/completions -H "Authorization: Bearer $SMARTCRACK_LLM_API_KEY" -H "Content-Type: application/json" -d '{"model":"llama-8b-baseline","messages":[{"role":"user","content":"hello"}]}'`
 - If you get 504 errors, the model may be restarting -- wait 30s and retry
 - Try `llama-8b-baseline` instead of `qwen35b-opus` (more reliable, faster)
 
 **"Not found" on a hash you know is in the wordlist**
-- Check hash type detection: `hashcrack identify -H "<hash>"`
+- Check hash type detection: `smartcrack identify -H "<hash>"`
 - Force the type if auto-detect is wrong: `--type md5`
 - If using a salt, pass it with `--salt`
 

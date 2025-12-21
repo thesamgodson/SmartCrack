@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import pytest
 
-from hashcrack.models import AttackPhase, CrackResult, HashTarget, HashType
-from hashcrack.orchestrator import AttackPlan
-from hashcrack.tui.app import CrackComplete, CrackProgress, HashCrackApp, PhaseChanged
-from hashcrack.tui.widgets.hash_info import HashInfoWidget
-from hashcrack.tui.widgets.log import LogWidget
-from hashcrack.tui.widgets.phases import PhasesWidget, PhaseItem
-from hashcrack.tui.widgets.progress import ProgressWidget
-from hashcrack.tui.widgets.result import ResultWidget
+from smartcrack.models import AttackPhase, CrackResult, HashTarget, HashType
+from smartcrack.orchestrator import AttackPlan
+from smartcrack.tui.app import CrackComplete, CrackProgress, SmartCrackApp, PhaseChanged
+from smartcrack.tui.widgets.hash_info import HashInfoWidget
+from smartcrack.tui.widgets.log import LogWidget
+from smartcrack.tui.widgets.phases import PhasesWidget, PhaseItem
+from smartcrack.tui.widgets.progress import ProgressWidget
+from smartcrack.tui.widgets.result import ResultWidget
 
 
 # ---------------------------------------------------------------------------
@@ -42,9 +42,9 @@ def _make_plans() -> list[AttackPlan]:
     ]
 
 
-def _make_app(auto_start: bool = False) -> HashCrackApp:
+def _make_app(auto_start: bool = False) -> SmartCrackApp:
     """Create a test app; auto_start=False prevents the worker from firing."""
-    return HashCrackApp(
+    return SmartCrackApp(
         target=_make_target(),
         plans=_make_plans(),
         max_workers=1,
@@ -65,7 +65,7 @@ async def test_app_launches_without_crash() -> None:
     async with app.run_test():
         assert app is not None
         # Header should be present
-        assert app.title == f"HashCrack v{__import__('hashcrack').__version__}"
+        assert app.title == f"SmartCrack v{__import__('smartcrack').__version__}"
 
 
 @pytest.mark.asyncio

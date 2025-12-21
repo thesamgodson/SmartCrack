@@ -8,7 +8,7 @@ from typing import Callable
 import argon2
 import bcrypt as bcrypt_lib
 
-from hashcrack.models import HashTarget, HashType
+from smartcrack.models import HashTarget, HashType
 
 HASH_FUNCTIONS: dict[HashType, Callable[[bytes], hashlib._Hash]] = {
     HashType.MD5: hashlib.md5,

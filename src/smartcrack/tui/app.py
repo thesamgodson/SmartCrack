@@ -1,4 +1,4 @@
-"""HashCrack Textual TUI application."""
+"""SmartCrack Textual TUI application."""
 
 from __future__ import annotations
 
@@ -13,15 +13,15 @@ from textual.containers import Vertical
 from textual.message import Message
 from textual.widgets import Footer, Header
 
-from hashcrack import __version__
-from hashcrack.models import CrackResult, HashTarget
-from hashcrack.orchestrator import AttackPlan, run_orchestrated
-from hashcrack.tui.widgets.ai_reasoning import AIReasoningWidget
-from hashcrack.tui.widgets.hash_info import HashInfoWidget
-from hashcrack.tui.widgets.log import LogWidget
-from hashcrack.tui.widgets.phases import PhasesWidget
-from hashcrack.tui.widgets.progress import ProgressWidget
-from hashcrack.tui.widgets.result import ResultWidget
+from smartcrack import __version__
+from smartcrack.models import CrackResult, HashTarget
+from smartcrack.orchestrator import AttackPlan, run_orchestrated
+from smartcrack.tui.widgets.ai_reasoning import AIReasoningWidget
+from smartcrack.tui.widgets.hash_info import HashInfoWidget
+from smartcrack.tui.widgets.log import LogWidget
+from smartcrack.tui.widgets.phases import PhasesWidget
+from smartcrack.tui.widgets.progress import ProgressWidget
+from smartcrack.tui.widgets.result import ResultWidget
 
 
 # ---------------------------------------------------------------------------
@@ -60,10 +60,10 @@ class CrackComplete(Message):
 # ---------------------------------------------------------------------------
 
 
-class HashCrackApp(App[CrackResult | None]):
-    """Interactive TUI dashboard for HashCrack."""
+class SmartCrackApp(App[CrackResult | None]):
+    """Interactive TUI dashboard for SmartCrack."""
 
-    TITLE = f"HashCrack v{__version__}"
+    TITLE = f"SmartCrack v{__version__}"
     SUB_TITLE = "Intelligent Hash Cracking"
 
     BINDINGS: ClassVar[list[Binding]] = [

@@ -8,8 +8,8 @@ import time
 from collections.abc import Callable, Iterator
 from concurrent.futures import Future, ProcessPoolExecutor, as_completed
 
-from hashcrack.hashers import verify_any
-from hashcrack.models import CrackResult, HashTarget, HashType
+from smartcrack.hashers import verify_any
+from smartcrack.models import CrackResult, HashTarget, HashType
 
 logger = logging.getLogger(__name__)
 
@@ -262,7 +262,7 @@ def crack_parallel(
                      chunk (whether or not it contained a match).
 
     Returns:
-        A :class:`~hashcrack.models.CrackResult` describing the outcome.
+        A :class:`~smartcrack.models.CrackResult` describing the outcome.
     """
     workers = max_workers or os.cpu_count() or 1
     hash_type_name = target.hash_type.name  # e.g. "MD5", "UNKNOWN"
@@ -348,7 +348,7 @@ def crack_sequential(
 ) -> CrackResult:
     """Crack *target* in a single thread — useful for small wordlists and tests.
 
-    Uses :func:`~hashcrack.hashers.verify_any` which handles auto-detection
+    Uses :func:`~smartcrack.hashers.verify_any` which handles auto-detection
     when the target hash type is ``UNKNOWN``.
 
     Args:
@@ -357,7 +357,7 @@ def crack_sequential(
         on_progress: Called once per candidate with ``1``.
 
     Returns:
-        A :class:`~hashcrack.models.CrackResult` describing the outcome.
+        A :class:`~smartcrack.models.CrackResult` describing the outcome.
     """
     start = time.perf_counter()
     attempts = 0
@@ -388,7 +388,7 @@ def crack_sequential(
 
 
 def _resolve_hash_type(name: str) -> HashType:
-    """Convert a hash type name string back to a :class:`~hashcrack.models.HashType`."""
+    """Convert a hash type name string back to a :class:`~smartcrack.models.HashType`."""
     try:
         return HashType[name]
     except KeyError:

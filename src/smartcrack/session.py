@@ -1,4 +1,4 @@
-"""Session save/resume functionality for HashCrack."""
+"""Session save/resume functionality for SmartCrack."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import uuid
 from pathlib import Path
 from typing import Any
 
-from hashcrack.models import (
+from smartcrack.models import (
     AttackPhase,
     CrackResult,
     CrackSession,

@@ -1,7 +1,7 @@
-"""Base classes and protocols for hashcrack plugins."""
+"""Base classes and protocols for smartcrack plugins."""
 from __future__ import annotations
 from typing import Protocol, Iterator, runtime_checkable
-from hashcrack.models import HashType
+from smartcrack.models import HashType
 
 
 @runtime_checkable

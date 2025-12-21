@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HashCrack - AI-Powered Hash Cracking CLI",
+  title: "SmartCrack - AI-Powered Hash Cracking CLI",
   description:
     "Crack smarter, not harder. AI-powered hash cracking with adaptive profiling, OSINT automation, and professional security audit reports.",
   keywords: [
@@ -26,15 +26,15 @@ export const metadata: Metadata = {
     "Python",
   ],
   openGraph: {
-    title: "HashCrack - AI-Powered Hash Cracking CLI",
+    title: "SmartCrack - AI-Powered Hash Cracking CLI",
     description:
       "Crack smarter, not harder. AI-powered hash cracking with adaptive profiling, OSINT automation, and professional security audit reports.",
     type: "website",
-    siteName: "HashCrack",
+    siteName: "SmartCrack",
   },
   twitter: {
     card: "summary_large_image",
-    title: "HashCrack - AI-Powered Hash Cracking CLI",
+    title: "SmartCrack - AI-Powered Hash Cracking CLI",
     description:
       "Crack smarter, not harder. AI-powered hash cracking with adaptive profiling, OSINT automation, and professional security audit reports.",
   },

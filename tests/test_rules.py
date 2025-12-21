@@ -7,7 +7,7 @@ from collections.abc import Iterator
 
 import pytest
 
-from hashcrack.rules import (
+from smartcrack.rules import (
     QUICK_RULES,
     RULE_APPEND_1,
     RULE_APPEND_123,

@@ -1,6 +1,6 @@
 """Build a TargetProfile from OSINT findings."""
 from __future__ import annotations
-from hashcrack.models import TargetProfile
+from smartcrack.models import TargetProfile
 
 def build_profile_from_findings(findings: dict) -> TargetProfile:
     """Convert raw OSINT findings into a TargetProfile."""

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from hashcrack.models import (
+from smartcrack.models import (
     AttackConfig,
     CrackResult,
     HashTarget,

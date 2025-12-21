@@ -1,4 +1,4 @@
-from hashcrack.analysis import (
+from smartcrack.analysis import (
     analyze_password,
     PasswordAnalysis,
     calculate_entropy,

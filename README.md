@@ -1,8 +1,8 @@
-# HashCrack
+# SmartCrack
 
 AI-powered hash cracking platform with adaptive profiling, OSINT automation, multi-phase attack orchestration, and professional security audit reports.
 
-[![CI](https://github.com/thesamgodson/HashCrack/actions/workflows/ci.yml/badge.svg)](https://github.com/thesamgodson/HashCrack/actions/workflows/ci.yml)
+[![CI](https://github.com/thesamgodson/SmartCrack/actions/workflows/ci.yml/badge.svg)](https://github.com/thesamgodson/SmartCrack/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -46,7 +46,7 @@ pip install -e ".[dev]"
 ### Smart attack with AI profiling
 
 ```bash
-hashcrack smart -H "5d41402abc4b2a76b9719d911017c592" \
+smartcrack smart -H "5d41402abc4b2a76b9719d911017c592" \
   --profile-name John \
   --profile-birthdate 1990-05-15 \
   --profile-pet Buddy
@@ -55,37 +55,37 @@ hashcrack smart -H "5d41402abc4b2a76b9719d911017c592" \
 ### OSINT-powered attack (one command does everything)
 
 ```bash
-hashcrack smart -H <hash> --osint-target @johndoe
+smartcrack smart -H <hash> --osint-target @johndoe
 ```
 
 ### Batch crack from file
 
 ```bash
-hashcrack batch -f hashes.txt --audit
+smartcrack batch -f hashes.txt --audit
 ```
 
 ### Identify hash type
 
 ```bash
-hashcrack identify -H <hash>
+smartcrack identify -H <hash>
 ```
 
 ### OSINT username enumeration
 
 ```bash
-hashcrack osint johndoe
+smartcrack osint johndoe
 ```
 
 ### Interactive TUI
 
 ```bash
-hashcrack smart -H <hash> --tui
+smartcrack smart -H <hash> --tui
 ```
 
 ### List plugins
 
 ```bash
-hashcrack plugins
+smartcrack plugins
 ```
 
 ## Commands
@@ -118,10 +118,10 @@ Copy `.env.example` to `.env` and fill in your LLM endpoint details.
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `HASHCRACK_LLM_BASE_URL` | OpenAI-compatible API base URL | -- |
-| `HASHCRACK_LLM_API_KEY` | API bearer token | -- |
-| `HASHCRACK_LLM_MODEL` | Model name | -- |
-| `HASHCRACK_LLM_TIMEOUT` | Request timeout (seconds) | 90 |
+| `SMARTCRACK_LLM_BASE_URL` | OpenAI-compatible API base URL | -- |
+| `SMARTCRACK_LLM_API_KEY` | API bearer token | -- |
+| `SMARTCRACK_LLM_MODEL` | Model name | -- |
+| `SMARTCRACK_LLM_TIMEOUT` | Request timeout (seconds) | 90 |
 
 ## Development
 
@@ -135,7 +135,7 @@ mypy src/                      # type check
 ## Project Structure
 
 ```
-src/hashcrack/
+src/smartcrack/
   cli.py              -- Typer CLI (crack, smart, batch, identify, osint, plugins)
   orchestrator.py      -- Smart attack phase chaining
   adaptive_profiler.py -- Multi-round AI profiling with chain-of-thought

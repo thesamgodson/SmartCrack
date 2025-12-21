@@ -6,7 +6,7 @@ import { Terminal } from "./terminal";
 
 const DEMO_LINES = [
   {
-    text: '$ hashcrack smart -H "5d41402abc4b2a76b9719d911017c592" --osint-target @johndoe',
+    text: '$ smartcrack smart -H "5d41402abc4b2a76b9719d911017c592" --osint-target @johndoe',
     color: "white" as const,
     delay: 300,
   },

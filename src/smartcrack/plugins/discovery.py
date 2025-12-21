@@ -3,9 +3,9 @@ from __future__ import annotations
 import importlib.metadata
 
 _ENTRY_POINT_GROUPS = {
-    "hash": "hashcrack.hash_plugins",
-    "attack": "hashcrack.attack_plugins",
-    "profiler": "hashcrack.profiler_plugins",
+    "hash": "smartcrack.hash_plugins",
+    "attack": "smartcrack.attack_plugins",
+    "profiler": "smartcrack.profiler_plugins",
 }
 
 

@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from hashcrack.wordlist import file_candidates, file_candidates_from_offset, resolve_wordlist
+from smartcrack.wordlist import file_candidates, file_candidates_from_offset, resolve_wordlist
 
 
 class TestFileCandidates:
@@ -58,7 +58,7 @@ class TestResolveWordlist:
 
     def test_raises_if_nothing_found(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
         # Point bundled path to a nonexistent location
-        import hashcrack.wordlist as wl
+        import smartcrack.wordlist as wl
         original = Path(__file__).parent / "definitely_not_a_real_path"
         monkeypatch.setattr(wl, "__file__", str(original))
         with pytest.raises(FileNotFoundError):

@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from hashcrack.models import (
+from smartcrack.models import (
     AttackPhase,
     CrackResult,
     CrackSession,
@@ -15,7 +15,7 @@ from hashcrack.models import (
     HashType,
     TargetProfile,
 )
-from hashcrack.session import generate_session_id, load_session, save_session
+from smartcrack.session import generate_session_id, load_session, save_session
 
 
 # ---------------------------------------------------------------------------

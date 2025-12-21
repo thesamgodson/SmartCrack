@@ -5,7 +5,7 @@ from __future__ import annotations
 from textual.app import ComposeResult
 from textual.widgets import Static
 
-from hashcrack.models import CrackResult
+from smartcrack.models import CrackResult
 
 
 class ResultWidget(Static):

@@ -10,15 +10,15 @@ import typer
 from rich.console import Console
 from rich.progress import BarColumn, MofNCompleteColumn, Progress, SpinnerColumn, TextColumn
 
-from hashcrack import __version__
-from hashcrack.hash_id import identify_hash
-from hashcrack.hashers import verify_any
-from hashcrack.models import AttackPhase, HashTarget, HashType, LLMConfig, TargetProfile
-from hashcrack.orchestrator import AttackPlan, plan_attacks, run_orchestrated
-from hashcrack.wordlist import file_candidates, resolve_wordlist
+from smartcrack import __version__
+from smartcrack.hash_id import identify_hash
+from smartcrack.hashers import verify_any
+from smartcrack.models import AttackPhase, HashTarget, HashType, LLMConfig, TargetProfile
+from smartcrack.orchestrator import AttackPlan, plan_attacks, run_orchestrated
+from smartcrack.wordlist import file_candidates, resolve_wordlist
 
 app = typer.Typer(
-    name="hashcrack",
+    name="smartcrack",
     help="Intelligent hash cracking platform with AI-powered profiling.",
     no_args_is_help=True,
 )
@@ -127,9 +127,9 @@ def smart(
     profile_child: str = typer.Option("", "--profile-child", help="Child name"),
     profile_keywords: str = typer.Option("", "--profile-keywords", help="Comma-separated keywords"),
     profile_numbers: str = typer.Option("", "--profile-numbers", help="Comma-separated special numbers"),
-    llm_base_url: str = typer.Option("", "--llm-base-url", envvar="HASHCRACK_LLM_BASE_URL", help="LLM API base URL"),
-    llm_api_key: str = typer.Option("", envvar="HASHCRACK_LLM_API_KEY", help="LLM API key (use env var HASHCRACK_LLM_API_KEY)", hidden=True),
-    llm_model: str = typer.Option("", "--llm-model", envvar="HASHCRACK_LLM_MODEL", help="LLM model name"),
+    llm_base_url: str = typer.Option("", "--llm-base-url", envvar="SMARTCRACK_LLM_BASE_URL", help="LLM API base URL"),
+    llm_api_key: str = typer.Option("", envvar="SMARTCRACK_LLM_API_KEY", help="LLM API key (use env var SMARTCRACK_LLM_API_KEY)", hidden=True),
+    llm_model: str = typer.Option("", "--llm-model", envvar="SMARTCRACK_LLM_MODEL", help="LLM model name"),
     tui: bool = typer.Option(False, "--tui", help="Launch interactive TUI dashboard"),
     rule_file: Optional[Path] = typer.Option(None, "--rule-file", help="Hashcat .rule file path"),
     osint_target: str = typer.Option("", "--osint-target", help="Username for OSINT-based profiling"),
@@ -194,8 +194,8 @@ def smart(
         console.print("[bold]Profile:[/] enabled")
 
     if osint_target:
-        from hashcrack.osint.username_enum import enumerate_username
-        from hashcrack.osint.profile_builder import build_profile_from_findings
+        from smartcrack.osint.username_enum import enumerate_username
+        from smartcrack.osint.profile_builder import build_profile_from_findings
 
         console.print(f"[bold]OSINT target:[/] {osint_target}")
         findings: dict[str, object] = {"username": osint_target, "platforms": [], "bio_keywords": []}
@@ -233,7 +233,7 @@ def smart(
         )
     elif llm_api_key and not llm_base_url:
         console.print("[yellow][!] LLM API key set but no base URL — AI profiling disabled.[/]")
-        console.print("[dim]Set HASHCRACK_LLM_BASE_URL or --llm-base-url[/]")
+        console.print("[dim]Set SMARTCRACK_LLM_BASE_URL or --llm-base-url[/]")
 
     plans = plan_attacks(
         wordlist_path=resolved_path,
@@ -243,7 +243,7 @@ def smart(
     )
 
     if rule_file is not None:
-        from hashcrack.plugins.rule_parser import rule_file_candidates
+        from smartcrack.plugins.rule_parser import rule_file_candidates
 
         new_plans: list[AttackPlan] = []
         for plan in plans:
@@ -256,8 +256,8 @@ def smart(
                     ),
                 ))
             elif plan.phase == AttackPhase.HYBRID and profile is not None:
-                from hashcrack.orchestrator import _select_profiler  # type: ignore[attr-defined]
-                from hashcrack.profiler import LocalProfiler
+                from smartcrack.orchestrator import _select_profiler  # type: ignore[attr-defined]
+                from smartcrack.profiler import LocalProfiler
                 profiler = _select_profiler(profile, llm_config) if llm_config else LocalProfiler()
                 new_plans.append(AttackPlan(
                     name=f"Profile + Custom Rules ({rule_file.name})",
@@ -271,9 +271,9 @@ def smart(
         plans = new_plans
 
     if tui:
-        from hashcrack.tui.app import HashCrackApp
+        from smartcrack.tui.app import SmartCrackApp
 
-        tui_app = HashCrackApp(
+        tui_app = SmartCrackApp(
             target=target,
             plans=plans,
             max_workers=workers,
@@ -335,13 +335,13 @@ def smart(
 @app.command()
 def version() -> None:
     """Show version."""
-    console.print(f"hashcrack v{__version__}")
+    console.print(f"smartcrack v{__version__}")
 
 
 @app.command()
 def plugins() -> None:
     """List installed plugins."""
-    from hashcrack.plugins.discovery import list_plugins
+    from smartcrack.plugins.discovery import list_plugins
 
     found = list_plugins()
     for group, names in found.items():
@@ -364,7 +364,7 @@ def batch(
     """Crack multiple hashes from a file."""
     _print_banner()
 
-    from hashcrack.batch import auto_type_jobs, deduplicate_hashes, parse_hash_file
+    from smartcrack.batch import auto_type_jobs, deduplicate_hashes, parse_hash_file
 
     resolved_path = resolve_wordlist(wordlist)
     jobs = parse_hash_file(hash_file)
@@ -409,7 +409,7 @@ def batch(
         console.print(f"\n[bold]Results:[/] {cracked}/{len(jobs)} cracked ({cracked / len(jobs) * 100:.0f}%)")
 
     if audit and cracked > 0:
-        from hashcrack.analysis import generate_audit_summary
+        from smartcrack.analysis import generate_audit_summary
 
         passwords = [r.plaintext for r in results.values() if hasattr(r, "plaintext") and r.plaintext]  # type: ignore[union-attr]
         summary = generate_audit_summary(passwords)
@@ -430,7 +430,7 @@ def osint(
 ) -> None:
     """Run OSINT username enumeration."""
     _print_banner()
-    from hashcrack.osint.username_enum import enumerate_username
+    from smartcrack.osint.username_enum import enumerate_username
 
     console.print(f"[bold]Enumerating username:[/] {username}\n")
     found_count = 0

@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from hashcrack.models import AttackPhase, HashTarget, HashType, TargetProfile
-from hashcrack.orchestrator import AttackPlan, plan_attacks, run_orchestrated
+from smartcrack.models import AttackPhase, HashTarget, HashType, TargetProfile
+from smartcrack.orchestrator import AttackPlan, plan_attacks, run_orchestrated
 
 
 # ---------------------------------------------------------------------------
@@ -267,7 +267,7 @@ class TestRunOrchestrated:
 
 
 def test_plan_attacks_includes_adaptive_phase():
-    from hashcrack.models import AttackPhase, LLMConfig, TargetProfile
+    from smartcrack.models import AttackPhase, LLMConfig, TargetProfile
     profile = TargetProfile(first_name="John")
     llm_config = LLMConfig(base_url="http://fake", api_key="key", model="test")
     plans = plan_attacks(

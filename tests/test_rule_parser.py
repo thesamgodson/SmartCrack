@@ -1,4 +1,4 @@
-from hashcrack.plugins.rule_parser import parse_rule_file, apply_hashcat_rule, rule_file_candidates
+from smartcrack.plugins.rule_parser import parse_rule_file, apply_hashcat_rule, rule_file_candidates
 
 def test_parse_lowercase_rule():
     assert apply_hashcat_rule("l", "PassWord") == "password"

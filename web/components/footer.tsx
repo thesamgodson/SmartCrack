@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Terminal } from "lucide-react";
 import { GitHubIcon } from "./icons";
 
-const GITHUB_URL = "https://github.com/sam/hashcrack";
+const GITHUB_URL = "https://github.com/sam/smartcrack";
 
 export function Footer() {
   return (
@@ -23,7 +23,7 @@ export function Footer() {
                 <Terminal className="w-3.5 h-3.5 text-white" />
               </div>
               <span className="text-sm font-semibold text-text-primary">
-                HashCrack
+                SmartCrack
               </span>
             </div>
             <span className="text-xs text-text-secondary">

@@ -1,5 +1,5 @@
-from hashcrack.plugins.discovery import discover_plugins, list_plugins
-from hashcrack.plugins.base import HashPlugin
+from smartcrack.plugins.discovery import discover_plugins, list_plugins
+from smartcrack.plugins.base import HashPlugin
 
 
 def test_discover_plugins_empty():

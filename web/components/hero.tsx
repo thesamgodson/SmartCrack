@@ -14,8 +14,8 @@ const Scene3D = dynamic(
 const EASING = [0.2, 0.8, 0.2, 1] as const;
 
 const HERO_TERMINAL_LINES = [
-  { text: "$ pip install hashcrack", color: "white", delay: 300 },
-  { text: "$ hashcrack smart -H '5d41402abc4b2a76b9719d911017c592'", color: "white", delay: 200 },
+  { text: "$ pip install smartcrack", color: "white", delay: 300 },
+  { text: "$ smartcrack smart -H '5d41402abc4b2a76b9719d911017c592'", color: "white", delay: 200 },
   { text: "", color: "dim" },
   { text: "Identifying hash... MD5 (confidence: 98%)", color: "cyan" },
   { text: "[1/5] Dictionary attack...", color: "dim", delay: 100 },
@@ -23,7 +23,7 @@ const HERO_TERMINAL_LINES = [
   { text: "[+] Time: 0.03s", color: "green" },
 ];
 
-const GITHUB_URL = "https://github.com/sam/hashcrack";
+const GITHUB_URL = "https://github.com/sam/smartcrack";
 
 export function Hero() {
   const reducedMotion = useReducedMotion();
@@ -129,7 +129,7 @@ export function Hero() {
               className="flex items-center gap-3"
             >
               <code className="text-sm font-mono px-4 py-2 rounded-lg bg-terminal-bg text-[oklch(0.85_0.01_262)]">
-                pip install hashcrack
+                pip install smartcrack
               </code>
             </motion.div>
           </div>

@@ -117,7 +117,7 @@ export function Features() {
             <span className="gradient-text">crack hashes</span>
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            From dictionary attacks to adaptive AI reasoning, HashCrack
+            From dictionary attacks to adaptive AI reasoning, SmartCrack
             orchestrates the entire workflow in a single command.
           </p>
         </motion.div>

@@ -7,14 +7,14 @@ from pathlib import Path
 
 import pytest
 
-from hashcrack.models import (
+from smartcrack.models import (
     AttackPhase,
     CrackResult,
     CrackSession,
     HashTarget,
     HashType,
 )
-from hashcrack.report import generate_report, save_report
+from smartcrack.report import generate_report, save_report
 
 
 # ---------------------------------------------------------------------------
@@ -66,7 +66,7 @@ def _make_session(
 def test_markdown_contains_title() -> None:
     session = _make_session()
     report = generate_report(session, format="markdown")
-    assert "# HashCrack Report" in report
+    assert "# SmartCrack Report" in report
 
 
 def test_markdown_contains_target_section() -> None:
@@ -224,11 +224,11 @@ def test_save_report_json(tmp_path: Path) -> None:
 
 class TestAuditReport:
     def _make_summary(self):
-        from hashcrack.analysis import generate_audit_summary
+        from smartcrack.analysis import generate_audit_summary
         return generate_audit_summary(["password", "123456", "john1990", "X#9kL!mP2@vQ"])
 
     def test_audit_markdown(self):
-        from hashcrack.report import generate_audit_report
+        from smartcrack.report import generate_audit_report
         summary = self._make_summary()
         md = generate_audit_report(summary, format="markdown")
         assert "# Security Audit Report" in md
@@ -237,7 +237,7 @@ class TestAuditReport:
         assert "Pattern Analysis" in md
 
     def test_audit_html(self):
-        from hashcrack.report import generate_audit_report
+        from smartcrack.report import generate_audit_report
         summary = self._make_summary()
         html = generate_audit_report(summary, format="html")
         assert "<!DOCTYPE html>" in html
@@ -245,7 +245,7 @@ class TestAuditReport:
         assert "Passwords Analyzed" in html
 
     def test_audit_invalid_format(self):
-        from hashcrack.report import generate_audit_report
+        from smartcrack.report import generate_audit_report
         summary = self._make_summary()
         with pytest.raises(ValueError, match="Unsupported format"):
             generate_audit_report(summary, format="pdf")

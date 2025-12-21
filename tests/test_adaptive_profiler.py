@@ -1,6 +1,6 @@
 from unittest.mock import patch, MagicMock
-from hashcrack.adaptive_profiler import AdaptiveProfiler, ProfileRound
-from hashcrack.models import TargetProfile, LLMConfig
+from smartcrack.adaptive_profiler import AdaptiveProfiler, ProfileRound
+from smartcrack.models import TargetProfile, LLMConfig
 
 
 def _mock_llm_response(content: str):

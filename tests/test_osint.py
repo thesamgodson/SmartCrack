@@ -1,6 +1,6 @@
 from unittest.mock import patch, MagicMock
-from hashcrack.osint.username_enum import check_platform, enumerate_username, Platform, PlatformResult
-from hashcrack.osint.profile_builder import build_profile_from_findings
+from smartcrack.osint.username_enum import check_platform, enumerate_username, Platform, PlatformResult
+from smartcrack.osint.profile_builder import build_profile_from_findings
 
 def test_platform_dataclass():
     p = Platform(name="github", url_template="https://github.com/{}", check_type="status_code")

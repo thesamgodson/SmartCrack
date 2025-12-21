@@ -6,8 +6,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from hashcrack.models import LLMConfig, TargetProfile
-from hashcrack.profiler import AIProfiler, LocalProfiler, create_profiler
+from smartcrack.models import LLMConfig, TargetProfile
+from smartcrack.profiler import AIProfiler, LocalProfiler, create_profiler
 
 
 # ---------------------------------------------------------------------------
@@ -192,7 +192,7 @@ class TestAIProfiler:
     def test_api_down_logs_warning(self, keyed_config: LLMConfig, full_profile: TargetProfile, caplog: pytest.LogCaptureFixture) -> None:
         import httpx as _httpx
         import logging
-        with caplog.at_level(logging.WARNING, logger="hashcrack.profiler"):
+        with caplog.at_level(logging.WARNING, logger="smartcrack.profiler"):
             with patch("httpx.post", side_effect=_httpx.TimeoutException("timed out")):
                 list(AIProfiler(keyed_config).generate(full_profile))
         assert any("timed out" in record.message or "AIProfiler" in record.message for record in caplog.records)
@@ -243,11 +243,11 @@ class TestCreateProfiler:
         assert isinstance(profiler, AIProfiler)
 
     def test_local_profiler_satisfies_protocol(self, no_key_config: LLMConfig) -> None:
-        from hashcrack.protocols import ProfilerProtocol
+        from smartcrack.protocols import ProfilerProtocol
         profiler = create_profiler(no_key_config)
         assert isinstance(profiler, ProfilerProtocol)
 
     def test_ai_profiler_satisfies_protocol(self, keyed_config: LLMConfig) -> None:
-        from hashcrack.protocols import ProfilerProtocol
+        from smartcrack.protocols import ProfilerProtocol
         profiler = create_profiler(keyed_config)
         assert isinstance(profiler, ProfilerProtocol)

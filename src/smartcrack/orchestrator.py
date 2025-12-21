@@ -6,18 +6,18 @@ from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from pathlib import Path
 
-from hashcrack.cracker import crack_parallel, crack_sequential
-from hashcrack.models import (
+from smartcrack.cracker import crack_parallel, crack_sequential
+from smartcrack.models import (
     AttackPhase,
     CrackResult,
     HashTarget,
     LLMConfig,
     TargetProfile,
 )
-from hashcrack.adaptive_profiler import AdaptiveProfiler
-from hashcrack.profiler import AIProfiler, LocalProfiler
-from hashcrack.rules import QUICK_RULES, THOROUGH_RULES, Rule, rule_candidates
-from hashcrack.wordlist import file_candidates
+from smartcrack.adaptive_profiler import AdaptiveProfiler
+from smartcrack.profiler import AIProfiler, LocalProfiler
+from smartcrack.rules import QUICK_RULES, THOROUGH_RULES, Rule, rule_candidates
+from smartcrack.wordlist import file_candidates
 
 
 @dataclass(frozen=True)
@@ -200,7 +200,7 @@ def run_orchestrated(
                          ``(phase_name, phase_index, total_phases)``.
 
     Returns:
-        A :class:`~hashcrack.models.CrackResult` from the winning phase,
+        A :class:`~smartcrack.models.CrackResult` from the winning phase,
         or a not-found result accumulating all attempts if every phase fails.
     """
     total_phases = len(plans)

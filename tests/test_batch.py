@@ -1,4 +1,4 @@
-from hashcrack.batch import parse_hash_file, BatchJob, BatchResult, deduplicate_hashes, auto_type_jobs
+from smartcrack.batch import parse_hash_file, BatchJob, BatchResult, deduplicate_hashes, auto_type_jobs
 
 def test_parse_hash_file_one_per_line(tmp_path):
     f = tmp_path / "hashes.txt"

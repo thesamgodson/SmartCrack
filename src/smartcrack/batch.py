@@ -3,8 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from hashcrack.models import HashType, CrackResult
-from hashcrack.hash_id import identify_hash
+from smartcrack.models import HashType, CrackResult
+from smartcrack.hash_id import identify_hash
 
 @dataclass
 class BatchJob:

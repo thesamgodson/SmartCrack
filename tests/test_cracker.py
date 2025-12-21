@@ -6,8 +6,8 @@ import hashlib
 from collections.abc import Iterator
 
 
-from hashcrack.cracker import _check_chunk, _chunk_iter, crack_parallel, crack_sequential, recommended_batch_size
-from hashcrack.models import HashTarget, HashType
+from smartcrack.cracker import _check_chunk, _chunk_iter, crack_parallel, crack_sequential, recommended_batch_size
+from smartcrack.models import HashTarget, HashType
 
 
 # ---------------------------------------------------------------------------
@@ -275,13 +275,13 @@ class TestCheckChunk:
         assert result is None
 
     def test_ntlm_match(self) -> None:
-        from hashcrack.hashers import compute_hash
+        from smartcrack.hashers import compute_hash
         ntlm_hash = compute_hash("test123", HashType.NTLM)
         result = _check_chunk(["wrong", "test123"], ntlm_hash, "NTLM", "")
         assert result == ("test123", "NTLM")
 
     def test_auto_detect_ntlm(self) -> None:
-        from hashcrack.hashers import compute_hash
+        from smartcrack.hashers import compute_hash
         ntlm_hash = compute_hash("hello", HashType.NTLM)
         result = _check_chunk(["world", "hello"], ntlm_hash, "UNKNOWN", "")
         assert result == ("hello", "NTLM")
@@ -302,7 +302,7 @@ def test_crack_sequential_bcrypt() -> None:
 
 
 def test_crack_sequential_ntlm() -> None:
-    from hashcrack.hashers import compute_hash
+    from smartcrack.hashers import compute_hash
     ntlm_hash = compute_hash("test123", HashType.NTLM)
     target = HashTarget(hash_value=ntlm_hash, hash_type=HashType.NTLM)
     result = crack_sequential(target, iter(["wrong", "test123"]))

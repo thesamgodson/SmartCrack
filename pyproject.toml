@@ -1,5 +1,5 @@
 [project]
-name = "hashcrack"
+name = "smartcrack"
 version = "3.0.0"
 description = "AI-powered hash cracking platform with adaptive profiling, OSINT automation, and security audit reports"
 requires-python = ">=3.10"
@@ -27,14 +27,14 @@ dev = [
 ]
 
 [project.scripts]
-hashcrack = "hashcrack.cli:app"
+smartcrack = "smartcrack.cli:app"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/hashcrack"]
+packages = ["src/smartcrack"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
