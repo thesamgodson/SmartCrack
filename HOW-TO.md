@@ -19,10 +19,8 @@ cp .env.example .env
 Edit `.env` and fill in your LLM endpoint:
 
 ```
-SMARTCRACK_LLM_BASE_URL=https://litellm.dev.bharatai.me/v1
-SMARTCRACK_LLM_API_KEY=sk-ySqjC5hEgpSAy0VdvafZWA
-SMARTCRACK_LLM_MODEL=qwen35b-opus
-SMARTCRACK_LLM_TIMEOUT=90
+SMARTCRACK_API_KEY=your-api-key-here
+SMARTCRACK_PROVIDER=gemini
 ```
 
 Then load it into your shell:

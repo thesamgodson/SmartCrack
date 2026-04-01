@@ -27,12 +27,47 @@ _STDLIB_HASH_NAMES: dict[str, str] = {
 _AUTO_SENTINELS: frozenset[str] = frozenset({"UNKNOWN", "auto"})
 
 
+_MEMORY_HARD = frozenset({HashType.ARGON2, HashType.SCRYPT, HashType.YESCRYPT, HashType.CISCO_TYPE9})
+_SLOW_ITERATED = frozenset({
+    HashType.BCRYPT, HashType.DCC2, HashType.DRUPAL7,
+    HashType.ORACLE12C, HashType.KEEPASS, HashType.MS_OFFICE, HashType.SEVENZIP,
+    HashType.BITCOIN, HashType.ETHEREUM, HashType.MACOS_PBKDF2, HashType.CISCO_TYPE8,
+    HashType.POSTGRES_SCRAM,
+})
+_MEDIUM_ITERATED = frozenset({
+    HashType.MD5CRYPT, HashType.SHA256CRYPT, HashType.SHA512CRYPT,
+    HashType.PHPASS, HashType.DJANGO_PBKDF2,
+    HashType.WPA2_PMKID, HashType.RAR5, HashType.PDF, HashType.DCC1,
+})
+_FAST = frozenset({
+    HashType.MD5, HashType.SHA1, HashType.SHA224, HashType.SHA256,
+    HashType.SHA384, HashType.SHA512, HashType.NTLM, HashType.MYSQL41,
+    HashType.NETNTLMV2, HashType.KERBEROS_TGS, HashType.KERBEROS_ASREP,
+    HashType.MSSQL2012, HashType.LDAP_SSHA,
+    HashType.LM, HashType.NETNTLMV1, HashType.ORACLE11G, HashType.POSTGRES_MD5,
+})
+
+
 def recommended_batch_size(hash_type: HashType) -> int:
     """Return optimal batch size based on hash computation cost."""
-    slow_hashes = {HashType.BCRYPT, HashType.ARGON2}
-    if hash_type in slow_hashes:
-        return 100
+    if hash_type in _MEMORY_HARD:
+        return 50
+    if hash_type in _SLOW_ITERATED:
+        return 500
+    if hash_type in _MEDIUM_ITERATED:
+        return 5_000
+    if hash_type in _FAST:
+        return 50_000
     return 10_000
+
+
+def recommended_max_workers(hash_type: HashType) -> int | None:
+    """Return optimal worker count for a hash type. None = os.cpu_count()."""
+    if hash_type in _MEMORY_HARD:
+        return 2  # Memory-bound, more workers just thrash
+    if hash_type in _SLOW_ITERATED:
+        return max(1, (os.cpu_count() or 4) // 2)
+    return None  # Use all cores
 
 
 # ---------------------------------------------------------------------------
@@ -205,13 +240,27 @@ def _check_chunk(
                 return (candidate, "NTLM")
         return None
 
+    # --- stdlib fast path (MD5, SHA1, SHA256, etc.) ---
     algo = _STDLIB_HASH_NAMES.get(hash_type_name)
-    if algo is None:
+    if algo is not None:
+        for candidate in candidates:
+            encoded = (candidate + salted_suffix).encode("utf-8")
+            if hashlib.new(algo, encoded).hexdigest() == target_lower:
+                return (candidate, hash_type_name)
         return None
 
+    # --- general fallback: use hashers.verify for all other types ---
+    from smartcrack.hashers import verify  # noqa: PLC0415
+    from smartcrack.models import HashTarget, HashType  # noqa: PLC0415
+
+    try:
+        ht = HashType[hash_type_name]
+    except KeyError:
+        return None
+
+    target = HashTarget(hash_value=hash_value, hash_type=ht, salt=salt)
     for candidate in candidates:
-        encoded = (candidate + salted_suffix).encode("utf-8")
-        if hashlib.new(algo, encoded).hexdigest() == target_lower:
+        if verify(candidate, target):
             return (candidate, hash_type_name)
     return None
 

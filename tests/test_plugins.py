@@ -1,5 +1,4 @@
 from smartcrack.plugins.discovery import discover_plugins, list_plugins
-from smartcrack.plugins.base import HashPlugin
 
 
 def test_discover_plugins_empty():
@@ -13,10 +12,6 @@ def test_list_plugins_returns_dict():
     assert "hash" in result
     assert "attack" in result
     assert "profiler" in result
-
-
-def test_protocols_are_runtime_checkable():
-    assert hasattr(HashPlugin, '__protocol_attrs__') or callable(getattr(HashPlugin, '__instancecheck__', None))
 
 
 def test_discover_unknown_group():

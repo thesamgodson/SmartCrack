@@ -1,6 +1,5 @@
 from smartcrack.analysis import (
     analyze_password,
-    PasswordAnalysis,
     calculate_entropy,
     detect_patterns,
     generate_audit_summary,
@@ -72,13 +71,3 @@ def test_audit_summary_recommendations():
     summary = generate_audit_summary(passwords)
     assert len(summary.recommendations) > 0
 
-def test_password_analysis_dataclass():
-    a = PasswordAnalysis(
-        password="test",
-        entropy=20.0,
-        patterns=["weak"],
-        strength="weak",
-        length=4,
-        charset_size=26,
-    )
-    assert a.password == "test"

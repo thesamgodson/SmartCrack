@@ -22,6 +22,7 @@ from smartcrack.tui.widgets.log import LogWidget
 from smartcrack.tui.widgets.phases import PhasesWidget
 from smartcrack.tui.widgets.progress import ProgressWidget
 from smartcrack.tui.widgets.result import ResultWidget
+from smartcrack.tui.widgets.telemetry import TelemetryWidget
 
 
 # ---------------------------------------------------------------------------
@@ -84,6 +85,9 @@ class SmartCrackApp(App[CrackResult | None]):
     ProgressWidget {
         margin-bottom: 1;
     }
+    TelemetryWidget {
+        margin-bottom: 1;
+    }
     PhasesWidget {
         margin-bottom: 1;
     }
@@ -123,6 +127,7 @@ class SmartCrackApp(App[CrackResult | None]):
         with Vertical(id="main-container"):
             yield HashInfoWidget(self._target, id="hash-info")
             yield ProgressWidget(id="progress")
+            yield TelemetryWidget(id="telemetry")
             yield PhasesWidget(phase_names, id="phases")
             yield AIReasoningWidget(id="ai-reasoning")
             yield LogWidget(id="log")
@@ -145,6 +150,8 @@ class SmartCrackApp(App[CrackResult | None]):
             with self._attempts_lock:
                 self._total_attempts += n
                 total = self._total_attempts
+            telemetry_widget = self.query_one("#telemetry", TelemetryWidget)
+            telemetry_widget.telemetry.update(n)
             self.call_from_thread(self.post_message, CrackProgress(total))
 
         def _on_phase_change(phase_name: str, phase_idx: int, total: int) -> None:
@@ -173,9 +180,11 @@ class SmartCrackApp(App[CrackResult | None]):
     # ------------------------------------------------------------------
 
     def on_crack_progress(self, message: CrackProgress) -> None:
-        """Update progress widget with latest attempt count."""
+        """Update progress widget and telemetry with latest attempt count."""
         progress = self.query_one("#progress", ProgressWidget)
         progress.update_progress(message.attempts)
+        telemetry = self.query_one("#telemetry", TelemetryWidget)
+        telemetry.refresh_telemetry()
 
     def on_phase_changed(self, message: PhaseChanged) -> None:
         """Update phases timeline and progress label."""

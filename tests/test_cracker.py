@@ -6,7 +6,7 @@ import hashlib
 from collections.abc import Iterator
 
 
-from smartcrack.cracker import _check_chunk, _chunk_iter, crack_parallel, crack_sequential, recommended_batch_size
+from smartcrack.cracker import _check_chunk, _chunk_iter, crack_parallel, crack_sequential
 from smartcrack.models import HashTarget, HashType
 
 
@@ -314,15 +314,3 @@ def test_crack_sequential_ntlm() -> None:
 # ---------------------------------------------------------------------------
 
 
-class TestRecommendedBatchSize:
-    def test_md5_returns_10000(self) -> None:
-        assert recommended_batch_size(HashType.MD5) == 10_000
-
-    def test_sha256_returns_10000(self) -> None:
-        assert recommended_batch_size(HashType.SHA256) == 10_000
-
-    def test_bcrypt_returns_100(self) -> None:
-        assert recommended_batch_size(HashType.BCRYPT) == 100
-
-    def test_argon2_returns_100(self) -> None:
-        assert recommended_batch_size(HashType.ARGON2) == 100

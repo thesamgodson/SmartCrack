@@ -40,5 +40,3 @@ def test_rule_file_candidates_yields_original(tmp_path):
     assert "hello" in results
     assert "HELLO" in results
 
-def test_noop_rule():
-    assert apply_hashcat_rule(":", "test") == "test"

@@ -46,6 +46,30 @@ class TestFileCandidatesFromOffset:
         from_zero = list(file_candidates_from_offset(tmp_wordlist, offset=0))
         assert all_words == from_zero
 
+    def test_offset_beyond_file_warns(self, tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
+        f = tmp_path / "w.txt"
+        f.write_text("a\nb\nc\n")
+        with caplog.at_level("WARNING", logger="smartcrack.wordlist"):
+            result = list(file_candidates_from_offset(f, offset=100))
+        assert result == []
+        assert "offset 100 skipped all lines" in caplog.text
+
+    def test_empty_file_offset_zero_no_warn(self, tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
+        f = tmp_path / "empty.txt"
+        f.write_text("")
+        with caplog.at_level("WARNING", logger="smartcrack.wordlist"):
+            result = list(file_candidates_from_offset(f, offset=0))
+        assert result == []
+        assert caplog.text == ""
+
+    def test_valid_offset_yields_correctly(self, tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
+        f = tmp_path / "w.txt"
+        f.write_text("x\ny\nz\n")
+        with caplog.at_level("WARNING", logger="smartcrack.wordlist"):
+            result = list(file_candidates_from_offset(f, offset=1))
+        assert result == ["y", "z"]
+        assert caplog.text == ""
+
 
 class TestResolveWordlist:
     def test_existing_file(self, tmp_wordlist: Path) -> None:

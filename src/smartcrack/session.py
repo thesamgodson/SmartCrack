@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import uuid
 from pathlib import Path
 from typing import Any
@@ -14,6 +15,10 @@ from smartcrack.models import (
     HashTarget,
     HashType,
     TargetProfile,
+)
+
+_VALID_PHASES: frozenset[str] = frozenset(
+    s for p in AttackPhase for s in (p.name, p.value)
 )
 
 
@@ -134,26 +139,47 @@ def _session_from_dict(data: dict[str, Any]) -> CrackSession:
     raw_result = data.get("result")
     raw_profile = data.get("profile")
 
+    wordlist_offset = max(0, min(int(data.get("wordlist_offset", 0)), 10_000_000))
+    candidates_tried = max(0, min(int(data.get("candidates_tried", 0)), 10_000_000_000))
+    phases_completed = tuple(
+        p for p in data.get("phases_completed", []) if p in _VALID_PHASES
+    )
+
     return CrackSession(
         session_id=data.get("session_id", ""),
         target=_hash_target_from_dict(data.get("target", {"hash_value": ""})),
         profile=_target_profile_from_dict(raw_profile) if raw_profile is not None else None,
         current_phase=current_phase,
-        candidates_tried=data.get("candidates_tried", 0),
-        wordlist_offset=data.get("wordlist_offset", 0),
-        phases_completed=tuple(data.get("phases_completed", [])),
+        candidates_tried=candidates_tried,
+        wordlist_offset=wordlist_offset,
+        phases_completed=phases_completed,
         completed=data.get("completed", False),
         result=_crack_result_from_dict(raw_result) if raw_result is not None else None,
     )
 
 
 def save_session(session: CrackSession, path: Path) -> None:
-    """Serialize a CrackSession to a JSON file at the given path."""
+    """Serialize a CrackSession to a JSON file at the given path.
+
+    File is created with mode 0o600 (owner-only) as session data
+    contains target hash values and profile PII.
+    """
     data = _session_to_dict(session)
-    path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    fd = os.open(str(path), os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    try:
+        os.write(fd, json.dumps(data, indent=2).encode("utf-8"))
+    finally:
+        os.close(fd)
 
 
 def load_session(path: Path) -> CrackSession:
     """Deserialize a CrackSession from a JSON file, handling missing fields gracefully."""
-    data: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
-    return _session_from_dict(data)
+    try:
+        data: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
+        return _session_from_dict(data)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Corrupt session file {path}: {exc}") from exc
+    except KeyError as exc:
+        raise ValueError(f"Corrupt session file {path}: {exc}") from exc
+    except TypeError as exc:
+        raise ValueError(f"Corrupt session file {path}: {exc}") from exc

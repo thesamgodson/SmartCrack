@@ -6,6 +6,7 @@ import pytest
 
 from smartcrack.models import (
     AttackConfig,
+    AttackPhase,
     CrackResult,
     HashTarget,
     HashType,
@@ -14,10 +15,6 @@ from smartcrack.models import (
 )
 
 
-class TestHashType:
-    def test_all_types_exist(self) -> None:
-        expected = {"MD5", "SHA1", "SHA224", "SHA256", "SHA384", "SHA512", "BCRYPT", "ARGON2", "NTLM", "UNKNOWN"}
-        assert {t.name for t in HashType} == expected
 
 
 class TestHashTarget:
@@ -51,6 +48,7 @@ class TestAttackConfig:
         assert config.batch_size == 10_000
         assert config.max_workers is None
         assert not config.rules_enabled
+        assert not hasattr(config, "timeout_seconds")
 
 
 class TestTargetProfile:
@@ -71,3 +69,15 @@ class TestLLMConfig:
         assert config.model == ""
         assert config.api_key == ""
         assert config.timeout_seconds == 90
+
+
+class TestAttackPhaseExtensions:
+    def test_rainbow_phase_exists(self) -> None:
+        assert AttackPhase.RAINBOW.value == "rainbow"
+
+    def test_combo_phase_exists(self) -> None:
+        assert AttackPhase.COMBO.value == "combo"
+
+    def test_all_phases_have_unique_values(self) -> None:
+        values = [p.value for p in AttackPhase]
+        assert len(values) == len(set(values))

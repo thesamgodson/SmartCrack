@@ -6,6 +6,7 @@ from smartcrack.tui.widgets.log import LogWidget
 from smartcrack.tui.widgets.phases import PhasesWidget
 from smartcrack.tui.widgets.progress import ProgressWidget
 from smartcrack.tui.widgets.result import ResultWidget
+from smartcrack.tui.widgets.telemetry import TelemetryWidget
 
 __all__ = [
     "AIReasoningWidget",
@@ -14,4 +15,5 @@ __all__ = [
     "PhasesWidget",
     "ProgressWidget",
     "ResultWidget",
+    "TelemetryWidget",
 ]

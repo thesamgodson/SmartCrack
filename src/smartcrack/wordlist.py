@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import Iterator
+
+logger = logging.getLogger(__name__)
 
 
 def file_candidates(path: Path, encoding: str = "iso-8859-1") -> Iterator[str]:
@@ -19,13 +22,22 @@ def file_candidates_from_offset(
     path: Path, offset: int = 0, encoding: str = "iso-8859-1"
 ) -> Iterator[str]:
     """Yield lines from a wordlist file, skipping the first `offset` lines."""
+    yielded = False
     with open(path, "r", encoding=encoding) as f:
         for i, line in enumerate(f):
             if i < offset:
                 continue
             stripped = line.rstrip("\n\r")
             if stripped:
+                yielded = True
                 yield stripped
+    if not yielded and offset > 0:
+        logger.warning(
+            "Wordlist offset %d skipped all lines in %s — "
+            "the wordlist may be shorter than the saved offset",
+            offset,
+            path,
+        )
 
 
 def resolve_wordlist(path: Path) -> Path:
