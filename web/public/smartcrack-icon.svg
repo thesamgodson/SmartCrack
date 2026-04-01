@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Primary electric blue/cyan gradient -->
+    <linearGradient id="bolt-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D4FF"/>
+      <stop offset="50%" stop-color="#0099FF"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+
+    <!-- Shield body gradient -->
+    <linearGradient id="shield-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+
+    <!-- Shield border/stroke gradient -->
+    <linearGradient id="border-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D4FF" stop-opacity="0.8"/>
+      <stop offset="40%" stop-color="#0099FF" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#6366F1" stop-opacity="0.7"/>
+    </linearGradient>
+
+    <!-- Glow filter for the bolt -->
+    <filter id="bolt-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0  0 0.6 0 0 0  0 0 1 0 0  0 0 0 0.6 0" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Subtle inner glow for shield -->
+    <radialGradient id="inner-glow" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#0099FF" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#0099FF" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Crack fracture lines glow -->
+    <filter id="crack-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0  0 0.7 0 0 0  0 0 1 0 0  0 0 0 0.5 0" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Shield shape — pointed bottom, broad top -->
+  <path
+    d="M256 28
+       C256 28 108 68 72 92
+       C72 92 56 104 56 140
+       L56 248
+       C56 340 120 412 256 484
+       C392 412 456 340 456 248
+       L456 140
+       C456 104 440 92 440 92
+       C404 68 256 28 256 28Z"
+    fill="url(#shield-grad)"
+    stroke="url(#border-grad)"
+    stroke-width="6"
+    stroke-linejoin="round"
+  />
+
+  <!-- Inner ambient glow -->
+  <path
+    d="M256 28
+       C256 28 108 68 72 92
+       C72 92 56 104 56 140
+       L56 248
+       C56 340 120 412 256 484
+       C392 412 456 340 456 248
+       L456 140
+       C456 104 440 92 440 92
+       C404 68 256 28 256 28Z"
+    fill="url(#inner-glow)"
+  />
+
+  <!-- Lightning bolt — the crack through the shield -->
+  <g filter="url(#bolt-glow)">
+    <path
+      d="M280 100
+         L220 228
+         L272 228
+         L232 412
+         L340 248
+         L284 248
+         L330 100
+         Z"
+      fill="url(#bolt-grad)"
+    />
+  </g>
+
+  <!-- Fracture lines radiating from bolt — left side -->
+  <g filter="url(#crack-glow)" opacity="0.7">
+    <!-- Upper left fracture -->
+    <line x1="220" y1="228" x2="148" y2="200" stroke="url(#bolt-grad)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="148" y1="200" x2="120" y2="188" stroke="url(#bolt-grad)" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Mid left fracture -->
+    <line x1="248" y1="320" x2="168" y2="308" stroke="url(#bolt-grad)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="168" y1="308" x2="136" y2="316" stroke="url(#bolt-grad)" stroke-width="1.2" stroke-linecap="round"/>
+
+    <!-- Upper right fracture -->
+    <line x1="284" y1="248" x2="356" y2="224" stroke="url(#bolt-grad)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="356" y1="224" x2="388" y2="232" stroke="url(#bolt-grad)" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Lower right fracture -->
+    <line x1="300" y1="340" x2="360" y2="356" stroke="url(#bolt-grad)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="360" y1="356" x2="384" y2="348" stroke="url(#bolt-grad)" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Small binary/hash dots — subtle AI/data motif -->
+  <g opacity="0.25" fill="#00D4FF">
+    <!-- Left column -->
+    <circle cx="112" cy="160" r="3"/>
+    <circle cx="112" cy="176" r="3"/>
+    <circle cx="112" cy="208" r="3"/>
+    <circle cx="112" cy="240" r="3"/>
+    <circle cx="112" cy="272" r="3"/>
+
+    <!-- Right column -->
+    <circle cx="400" cy="160" r="3"/>
+    <circle cx="400" cy="192" r="3"/>
+    <circle cx="400" cy="208" r="3"/>
+    <circle cx="400" cy="256" r="3"/>
+    <circle cx="400" cy="288" r="3"/>
+
+    <!-- Inner scattered -->
+    <circle cx="160" cy="140" r="2"/>
+    <circle cx="176" cy="364" r="2"/>
+    <circle cx="352" cy="140" r="2"/>
+    <circle cx="336" cy="372" r="2"/>
+  </g>
+
+  <!-- Neural network nodes — 3 small connected circles at top of shield for "smart/AI" -->
+  <g opacity="0.35">
+    <circle cx="208" cy="72" r="4" fill="#00D4FF"/>
+    <circle cx="256" cy="56" r="5" fill="#00D4FF"/>
+    <circle cx="304" cy="72" r="4" fill="#00D4FF"/>
+    <line x1="208" y1="72" x2="256" y2="56" stroke="#00D4FF" stroke-width="1.5" opacity="0.6"/>
+    <line x1="256" y1="56" x2="304" y2="72" stroke="#00D4FF" stroke-width="1.5" opacity="0.6"/>
+    <line x1="208" y1="72" x2="304" y2="72" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+  </g>
+</svg>
