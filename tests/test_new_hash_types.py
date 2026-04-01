@@ -931,23 +931,28 @@ class TestVerifyOracle12c:
 
 
 class TestVerifyYescrypt:
-    def test_correct(self) -> None:
+    def _make_hash(self, password: str) -> str:
+        """Create a yescrypt hash using system crypt (Linux) or scrypt fallback."""
+        try:
+            import crypt
+            h = crypt.crypt(password, "$y$j9T$testsalt$")
+            if h and h.startswith("$y$"):
+                return h
+        except (ImportError, OSError):
+            pass
         import hashlib
         from smartcrack.hashers import _yescrypt_b64encode
         salt = "testsalt"
-        # Params j9T: '9' -> n=2^9=512, r=32, p=1
-        dk = hashlib.scrypt(b"password", salt=salt.encode(), n=512, r=32, p=1, dklen=32)
+        dk = hashlib.scrypt(password.encode(), salt=salt.encode(), n=512, r=32, p=1, dklen=32)
         encoded = _yescrypt_b64encode(dk)
-        h = f"$y$j9T${salt}${encoded}"
+        return f"$y$j9T${salt}${encoded}"
+
+    def test_correct(self) -> None:
+        h = self._make_hash("password")
         assert verify("password", HashTarget(hash_value=h, hash_type=HashType.YESCRYPT)) is True
 
     def test_wrong(self) -> None:
-        import hashlib
-        from smartcrack.hashers import _yescrypt_b64encode
-        salt = "testsalt"
-        dk = hashlib.scrypt(b"password", salt=salt.encode(), n=512, r=32, p=1, dklen=32)
-        encoded = _yescrypt_b64encode(dk)
-        h = f"$y$j9T${salt}${encoded}"
+        h = self._make_hash("password")
         assert verify("wrong", HashTarget(hash_value=h, hash_type=HashType.YESCRYPT)) is False
 
 
